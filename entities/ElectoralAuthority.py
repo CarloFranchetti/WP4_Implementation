@@ -251,15 +251,9 @@ class ElectoralAuthority:
             True se la catena è valida, False altrimenti.
         """
         # a. Validità temporale
-        now = datetime.utcnow()
-        try:
-            not_before = voter_cert.not_valid_before
-            not_after  = voter_cert.not_valid_after
-        except AttributeError:
-            # Fallback per versioni più recenti di cryptography (tz-aware)
-            now        = datetime.now(timezone.utc)
-            not_before = voter_cert.not_valid_before_utc
-            not_after  = voter_cert.not_valid_after_utc
+        now        = datetime.now(timezone.utc)
+        not_before = voter_cert.not_valid_before_utc
+        not_after  = voter_cert.not_valid_after_utc
 
         if not (not_before <= now <= not_after):
             return False
